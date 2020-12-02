@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="bec353e8-6d30-480d-b119-ca384562592b" basePath="/wayne" >
+		<http:listener-connection host="0.0.0.0" port="8082" />
+	</http:listener-config>
+	<flow name="assigment1Flow" doc:id="54e100a4-a6c9-491e-8fe4-290cd06a4b81" >
+		<http:listener doc:name="Listener" doc:id="61e6c8b2-2845-44ed-b7b7-6b1dbcdaf815" config-ref="HTTP_Listener_config" path="/wayne" outputMimeType="application/json"/>
+		<ee:transform doc:name="Transform Message" doc:id="8661f66a-e9c8-4d44-b39b-206d48cf170c" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+"Welcome!" ++ payload.firstname ++ payload.lastname ++ ".Your customer ID id" ++ payload.cid]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
